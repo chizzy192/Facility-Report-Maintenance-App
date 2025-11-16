@@ -10,9 +10,6 @@ import Theme from "../components/Theme";
 
 function Login() {
     const { signInUser } = UserAuth();
-    const [form, setForm] = useState([
-      email, password
-    ])
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
