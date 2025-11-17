@@ -3,7 +3,7 @@ import { Link } from 'react-router'
 import Theme from './Theme.jsx'
 
 
-const SideBar = ({headerLogo = {}, title= 'Menu', text='text', links = []}) => {
+const SideBar = ({headerLogo = {}, title= 'Menu', text='text', links = [], username=undefined}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
@@ -104,7 +104,7 @@ const SideBar = ({headerLogo = {}, title= 'Menu', text='text', links = []}) => {
           <div className='w-full flex flex-col px-5 my-2 gap-3'>
             <div className='flex items-center'>
               <div className='w-10 h-10 rounded-3xl bg-primary-dark items-center flex justify-center text-2xl text-white'>C</div>
-              <h4 className={`ml-3 ${isHovered ? 'flex' : 'lg:hidden'}`}>User</h4>
+              <h4 className={`ml-3 ${isHovered ? 'flex' : 'lg:hidden'}`}>{username}</h4>
             </div>
 
             {(isHovered || isOpen) ? (<Theme style='p-2 bg-background-black/50 rounded-lg border-border/50 shadow-lg border w-full  flex justify-start items-center cursor-pointer' showText='true'/>) : <Theme style='p-2 bg-background-black/50 rounded-lg border-border/50 shadow-lg border w-full flex justify-start items-center cursor-pointer'/>}

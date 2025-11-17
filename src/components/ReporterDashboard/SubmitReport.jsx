@@ -17,7 +17,7 @@ function SubmitReport() {
         </p>
       </div>
     
-      <div className='bg-white dark:bg-black sm:w-160 w-90 min-h-152 rounded-lg px-8 pt-4 pb-6 flex flex-col gap-2 shadow-lg'>
+      <div className='bg-white dark:bg-black sm:w-160 w-85 min-h-152 rounded-lg px-5 sm:px-8 pt-4 pb-6 flex flex-col gap-2 shadow-lg'>
           <form action="" className=' flex flex-col gap-5 w-full'>
             <h3 class="text-text font-semibold text-xl">
                 Submit Maintenance Report

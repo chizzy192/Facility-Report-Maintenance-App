@@ -10,8 +10,11 @@ import Theme from "../components/Theme";
 
 function Login() {
     const { signInUser } = UserAuth();
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const [form, setForm] = useState({
+      email: '',
+      password: ''
+    })
+
     const [showPassword, setShowPassword] = useState(false);
 
     const [error, setError] = useState("");
@@ -21,8 +24,8 @@ function Login() {
     const navigate = useNavigate();
 
     const validateForm = () => {
-        if (!email.includes("@")) return "Enter a valid email.";
-        if (password.length < 6) return "Password must be at least 6 characters.";
+        if (!form.email.includes("@")) return "Enter a valid email.";
+        if (form.password.length < 6) return "Password must be at least 6 characters.";
         return null;
     };
 
@@ -38,7 +41,7 @@ function Login() {
 
     setLoading(true);
 
-    const result = await signInUser(email, password);
+    const result = await signInUser(form.email, form.password);
 
     if (!result.success) {
       setError(result.error);
@@ -55,7 +58,7 @@ function Login() {
         <div className='p-2 m-5 bg-background-black/50 rounded-lg border-border shadow-lg border absolute top-0 right-0 w-auto flex justify-center items-center' >
             <Theme style='flex item-center cursor-pointer py-1'/>
         </div>
-        <div className='bg-background-black flex flex-col gap-5 w-102 lg:w-115 p-8 rounded-xl shadow-lg'>
+        <div className='bg-background-black flex flex-col gap-5 w-80 sm:w-102 lg:w-115 px-6 py-6 sm:p-8 rounded-xl shadow-lg'>
           <h2 className="text-text text-2xl mb-3 text-center">Sign In</h2>
 
           <form onSubmit={handleLogin} className="flex flex-col gap-5">
@@ -66,7 +69,7 @@ function Login() {
                   name="email"
                   placeholder="you@example.com"
                   className='w-5 h-5'
-                  onChange= {(e)=> setEmail(e.target.value)}
+                  onChange= {(e)=> setForm({...form, email: e.target.value})}
               />
 
               <FormInput
@@ -80,7 +83,7 @@ function Login() {
                   }}
                   eyesIcon = {showPassword ? eyeOff : eyeOpen}
                   className='w-5 h-5'
-                  onChange= {(e)=> setPassword(e.target.value)}
+                  onChange= {(e)=> setForm({...form,password: e.target.value})}
               />
 
             {error && <p className="text-error text-sm">{error}</p>}
@@ -94,7 +97,7 @@ function Login() {
             </button>
           </form>
 
-          <p className="text-text-muted text-center mt-3">
+          <p className="text-text-muted text-center">
             Don’t have an account?{" "}
             <Link to="/signup" className="text-primary-dark">
               Sign Up

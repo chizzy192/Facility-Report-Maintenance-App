@@ -1,6 +1,8 @@
 import { Upload } from "lucide-react"
+import { useState } from "react";
 
 function ImageFile() {
+    const [image, setImage] = useState("");
   return (
     <div>
         <p className="font-bold text-text mb-2">Upload Images (Optional)</p>

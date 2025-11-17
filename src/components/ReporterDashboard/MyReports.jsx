@@ -1,11 +1,26 @@
 import { CalendarIcon, MapPinHouseIcon } from "lucide-react"
+import { supabase } from "../../subabaseClient";
+import { useEffect, useState } from "react"
 
 function MyReports() {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const getUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      setUser(user);
+    };
+
+    getUser();
+  }, [])
+
+
+
   return (
-    <section classNameName="flex flex-col gap-5">
+    <section className="flex flex-col gap-5">
       <div>
         <h2 className="text-text text-bold text-xl">
-            Hello, Chiziteremoluchi5! 
+            Hello, {user?.user_metadata?.full_name || "Loading..."} 
         </h2>
         <p className="text-text-muted text-bold text-md">
             Welcome back to your dashboard

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import FormInput from '../components/FormInput'
 import user from '../assets/user.svg'
 import mailicon from '../assets/mailicon.svg'
@@ -9,15 +9,18 @@ import Buttons from '../components/Buttons'
 import { Link, useNavigate } from 'react-router'
 import Theme from '../components/Theme'
 import { UserAuth } from '../context/AuthContext'
+import { Wrench } from 'lucide-react'
 
 
 function SignUp() {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
+    const [form, setForm] = useState({
+        name: '',
+        email: '',
+        password: '',
+        confirmPassword: ''
+    });
 
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
@@ -26,16 +29,16 @@ function SignUp() {
 
     const {signUpNewUser} = UserAuth();
     const navigate = useNavigate();
+    console.log(form.name, form.email, form.password)
 
     const validateForm = () => {
-        if(name.trim().length < 3) return "Name must be at least 3 characters.";
-        if(!email.includes("@")) return "Enter a valid email address.";
-        if(password.length < 6) return "Password must be at least 6 characters.";
-        if(password !== confirmPassword) return "Passwords do not match.";
+        if(form.name.trim().length < 3) return "Name must be at least 3 characters.";
+        if(!form.email.includes("@")) return "Enter a valid email address.";
+        if(form.password.length < 6) return "Password must be at least 6 characters.";
+        if(form.password !== form.confirmPassword) return "Passwords do not match.";
         return null;
     }
 
-    
     const handleSignUp = async (e) => {
         e.preventDefault();
         setError("");
@@ -50,7 +53,7 @@ function SignUp() {
         setLoading(true);
 
         try {
-            const result = await signUpNewUser(name, email, password)
+            const result = await signUpNewUser(form.name, form.email, form.password)
             if(result.success) {
                 setSuccess('Hurray, account successfully created!');
                 navigate('/login')
@@ -67,10 +70,10 @@ function SignUp() {
         <div className='p-2 m-5 bg-background-black/50 rounded-lg border-border shadow-lg border absolute top-0 right-0 w-auto flex justify-center items-center' >
             <Theme style='flex item-center cursor-pointer py-1'/>
         </div>
-        <div className='bg-background-black flex flex-col gap-5 w-102 lg:w-115 p-8 rounded-xl shadow-lg'>
+        <div className='bg-background-black flex flex-col gap-5 w-80 sm:w-102 lg:w-115 px-6 py-6 sm:p-8 rounded-xl shadow-lg'>
             <form onSubmit={handleSignUp} className=' flex flex-col gap-5 w-full'>
                 <figure className='flex flex-col justify-center items-center gap-3'>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-wrench-icon lucide-wrench text-text-muted"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.106-3.105c.32-.322.863-.22.983.218a6 6 0 0 1-8.259 7.057l-7.91 7.91a1 1 0 0 1-2.999-3l7.91-7.91a6 6 0 0 1 7.057-8.259c.438.12.54.662.219.984z"/></svg>
+                    <Wrench className='h-[30px] w-[30px] text-text-muted'/>
                     
                     <figcaption className='flex flex-col justify-center items-center gap-3'>
                         <h2 className='text-text text-2xl'>Create an account</h2>
@@ -87,7 +90,7 @@ function SignUp() {
                     name="name"
                     placeholder="John Doe"
                     className='w-5 h-5'
-                    onChange= {(e)=> setName(e.target.value)}
+                    onChange= {(e)=> setForm({...form, name: e.target.value})}
                 />
 
                 <FormInput
@@ -97,7 +100,7 @@ function SignUp() {
                     name="email"
                     placeholder="you@example.com"
                     className='w-5 h-5'
-                    onChange= {(e)=> setEmail(e.target.value)}
+                    onChange= {(e)=> setForm({...form, email: e.target.value})}
                 />
 
                 <FormInput
@@ -111,7 +114,7 @@ function SignUp() {
                     }}
                     eyesIcon = {showPassword ? eyeOff : eyeOpen}
                     className='w-5 h-5'
-                    onChange= {(e)=> setPassword(e.target.value)}
+                    onChange= {(e)=> setForm({...form, password: e.target.value})}
                 />
 
                 <FormInput
@@ -125,7 +128,7 @@ function SignUp() {
                     }}
                     eyesIcon = {showConfirmPassword ? eyeOff : eyeOpen}
                     className='w-5 h-5'
-                    onChange= {(e)=> setConfirmPassword(e.target.value)}
+                    onChange= {(e)=> setForm({...form, confirmPassword: e.target.value})}
                 />
 
                 {error && <p className='text-error text-sm mt-2'>{error}</p>}
