@@ -8,7 +8,7 @@ function Catergory() {
                         <select
                         name="technicanCategory"
                          required 
-                         className="bg-background/90 rounded-xl focus:rounded-xl flex p-2 hover:outline-3 outline-border text-text-muted shadow-sm items-center w-full">
+                         className="bg-gray-100 dark:bg-gray-900 rounded-xl focus:rounded-xl flex p-2 hover:outline-3 outline-border text-text-muted shadow-sm items-center w-full">
                             <option value="" disabled selected hidden className="text-text-muted">Select a category</option>
                             <option value="Electrical">Electrical</option>
                             <option value="Plumbing">Plumbing</option>

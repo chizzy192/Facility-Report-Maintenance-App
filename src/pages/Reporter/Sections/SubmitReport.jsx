@@ -3,6 +3,7 @@ import FormInput from '../../../components/FormInput'
 import Buttons from '../../../components/Buttons'
 import Catergory from '../../../components/Catergory'
 import ImageFile from '../../../components/ImageFile'
+import SectionHeader from '../../../components/SectionHeader'
 
 
 function SubmitReport() {
@@ -33,7 +34,7 @@ function SubmitReport() {
                       id="input-description"
                       required
                       placeholder="Provide detailed information about the maintenance issue"
-                      className="w-full text-[15px] px-3 py-1 rounded-md text-text-muted placeholder:text-gray-500 focus:outline-none"></textarea>
+                      className="bg-gray-100 dark:bg-gray-900 w-full text-[15px] px-3 py-1 rounded-md text-text-muted placeholder:text-gray-500 focus:outline-none"></textarea>
                   </div>
               </div>
 
