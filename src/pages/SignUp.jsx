@@ -67,10 +67,10 @@ function SignUp() {
 
   return (
     <main className='w-full h-screen flex flex-col justify-center items-center '>
-        <div className='bg-background-black flex flex-col gap-5 w-80 sm:w-102 lg:w-115 px-6 py-6 sm:p-8 rounded-xl shadow-lg' >
+        <div className='p-2 m-5 bg-background-black/50 rounded-lg border-border/50 shadow-lg border absolute top-0 right-0 w-auto flex justify-center items-center' >
             <Theme style='flex item-center cursor-pointer py-1'/>
         </div>
-        <div className='flex flex-col gap-5 sm:w-102 py-6 sm:p-8 rounded-xl shadow-lg bg-white dark:bg-black w-85 min-h-152 px-5 pt-4'>
+        <div className='flex flex-col gap-5 sm:w-102 py-6 sm:p-8 rounded-xl shadow-lg bg-white dark:bg-black w-85 min-h-152 px-5 pt-4  border-border/50 border'>
             <form onSubmit={handleSignUp} className=' flex flex-col gap-5 w-full'>
                 <figure className='flex flex-col justify-center items-center gap-3'>
                     <Wrench className='h-[30px] w-[30px] text-text-muted'/>
