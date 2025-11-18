@@ -7,9 +7,7 @@ function Buttons(props) {
       disabled={props.disabled} 
       className={props.style}
     >
-        <img 
-          src={props.icon}
-        />
+        {props.icon}
         {props.text}
     </button>
   )

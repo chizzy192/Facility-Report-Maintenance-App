@@ -1,5 +1,5 @@
 import { CalendarIcon, MapPinHouseIcon } from "lucide-react"
-
+import SectionHeader from "../../../components/SectionHeader"
 const variants = {
     'pending': {
       bg: 'bg-yellow-500/10 dark:bg-yellow-500/20',
@@ -42,12 +42,10 @@ const variants = {
 function Home() {
   return (
     <section className="flex flex-col gap-5">
-      <div>
-        <h1 className='text-text text-2xl 2xl:text-3xl font-bold'>All Reports</h1>
-        <p className='text-text-muted'>
-          View all active facility reports
-        </p>
-      </div>
+        <SectionHeader
+            title="All Reports"
+            text="View all active facility reports"
+        />
         {/* my card */}
       <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'>
       

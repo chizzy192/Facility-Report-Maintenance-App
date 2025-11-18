@@ -1,21 +1,17 @@
 import React from 'react'
-import FormInput from '../FormInput'
-import Buttons from '../Buttons'
-import Catergory from '../Catergory'
-import ImageFile from '../ImageFile'
+import FormInput from '../../../components/FormInput'
+import Buttons from '../../../components/Buttons'
+import Catergory from '../../../components/Catergory'
+import ImageFile from '../../../components/ImageFile'
 
 
 function SubmitReport() {
   return (
     <section className='flex flex-col gap-5 justify-center items-center'>
-      <div>
-        <h2 className="text-text text-bold text-2xl">
-            Submit New Report
-        </h2>
-        <p className="text-text-muted text-bold text-md">
-            Report a facility issue for our team to address
-        </p>
-      </div>
+        <SectionHeader
+            title="Submit New Report"
+            text="Report a facility issue for our team to address"
+        />
     
       <div className='bg-white dark:bg-black sm:w-160 w-85 min-h-152 rounded-lg px-5 sm:px-8 pt-4 pb-6 flex flex-col gap-2 shadow-lg'>
           <form action="" className=' flex flex-col gap-5 w-full'>

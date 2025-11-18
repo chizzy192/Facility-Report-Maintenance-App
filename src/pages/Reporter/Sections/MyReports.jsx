@@ -1,6 +1,7 @@
 import { CalendarIcon, MapPinHouseIcon } from "lucide-react"
-import { supabase } from "../../subabaseClient";
+import { supabase } from "../../../subabaseClient";
 import { useEffect, useState } from "react"
+import SectionHeader from "../../../components/SectionHeader";
 
 function MyReports() {
   const [user, setUser] = useState(null);
@@ -14,18 +15,12 @@ function MyReports() {
     getUser();
   }, [])
 
-
-
   return (
     <section className="flex flex-col gap-5">
-      <div>
-        <h2 className="text-text text-bold text-xl">
-            Hello, {user?.user_metadata?.full_name || "Loading..."} 
-        </h2>
-        <p className="text-text-muted text-bold text-md">
-            Welcome back to your dashboard
-        </p>
-      </div>
+      <SectionHeader
+          title={`Hello, ${user?.user_metadata?.full_name || "Loading..."}`}
+          text="Welcome back to your dashboard"
+      />
 
       {/* <!-- statistics --> */}
       <div className="w-full mt-7 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">

@@ -1,14 +1,29 @@
 import {useEffect, useRef, useState} from 'react'
 import { Link } from 'react-router'
 import Theme from './Theme.jsx'
+import { supabase } from '../subabaseClient.js'
+import { FileSpreadsheet } from 'lucide-react'
 
 
-const SideBar = ({headerLogo = {}, title= 'Menu', text='text', links = [], username=undefined}) => {
+const SideBar = ({text='text', links = []}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
   const sidebarRef = useRef(null);
   const isMobile = window.innerWidth < 1024;
+
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const getUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      setUser(user);
+    };
+
+    getUser();
+      }, []);
+
+
 
   useEffect (() => {
     function handleClickOutside(e) {
@@ -66,17 +81,18 @@ const SideBar = ({headerLogo = {}, title= 'Menu', text='text', links = [], usern
           )}
         </button>
 
-        <nav className={`flex flex-col justify-between space-y-2 w-auto h-full text-text lg:static  items-start`}>
+        <nav className={`flex flex-col space-y-2 justify-between w-auto h-full text-text lg:static  `} >
+          
         
           <div className='flex flex-col w-full'>
             <figure className="flex flex-row items-center border-b border-border/50 p-5">
               <div className='bg-primary-dark p-2 rounded-xl '> 
-                <img src={headerLogo} alt="" className='w-7 h-7'/>
+                <FileSpreadsheet className='text-white w-7 h-7'/>
               </div>
 
                 <figcaption className={`ml-4 flex-col justify-center ${isHovered ? 'flex' : 'lg:hidden'}`}>
                   <h2>
-                    {title}
+                    FacilityFix
                   </h2>
                   <p className='text-text-muted text-sm'>
                     {text}
@@ -90,7 +106,7 @@ const SideBar = ({headerLogo = {}, title= 'Menu', text='text', links = [], usern
                     key={i}
                     to={link.to}
                     onClick={() => setIsOpen(false)}
-                    className="hover:bg-primary-dark/20 p-2.5 mx-4 my-2 rounded-lg transition flex hover:text-primary-dark text-text-muted"
+                    className={`hover:bg-primary-dark/20  p-2.5 mx-4 my-1 rounded-lg transition flex active:text-primary-dark text-text-muted ${!isHovered && !isMobile ? 'justify-center' : 'justify-start'}`}
                   >
                     {link.logo}
                     <p className={`ml-3 ${isHovered ? 'flex' : 'lg:hidden'}`}>{link.label}</p>
@@ -104,7 +120,7 @@ const SideBar = ({headerLogo = {}, title= 'Menu', text='text', links = [], usern
           <div className='w-full flex flex-col px-5 my-2 gap-3'>
             <div className='flex items-center'>
               <div className='w-10 h-10 rounded-3xl bg-primary-dark items-center flex justify-center text-2xl text-white'>C</div>
-              <h4 className={`ml-3 ${isHovered ? 'flex' : 'lg:hidden'}`}>{username}</h4>
+              <h4 className={`ml-3 ${isHovered ? 'flex' : 'lg:hidden'}`}>{user?.user_metadata?.full_name || "Loading..."}</h4>
             </div>
 
             {(isHovered || isOpen) ? (<Theme style='p-2 bg-background-black/50 rounded-lg border-border/50 shadow-lg border w-full  flex justify-start items-center cursor-pointer' showText='true'/>) : <Theme style='p-2 bg-background-black/50 rounded-lg border-border/50 shadow-lg border w-full flex justify-start items-center cursor-pointer'/>}
@@ -113,11 +129,8 @@ const SideBar = ({headerLogo = {}, title= 'Menu', text='text', links = [], usern
                 <svg xmlns="http://www.w3.org/2000/svg" width="24"   height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-log-out h-5 w-5 text-error"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" x2="9" y1="12" y2="12"></line></svg>
                 <h3 class={`text-error text-md ${isHovered ? "flex" : 'lg:hidden'}  ml-4`}>Logout</h3>
             </button>
-          </div>
-          
-        </nav>
-
-      
+          </div>         
+        </nav> 
     </aside>
     </header>
   )
