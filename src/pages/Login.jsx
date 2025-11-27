@@ -7,6 +7,7 @@ import passwordLock from "../assets/passwordLock.svg";
 import eyeOpen from "../assets/eyeOpen.svg";
 import eyeOff from "../assets/eyeOff.svg";
 import Theme from "../components/Theme";
+import { supabase } from "../subabaseClient";
 
 function Login() {
     const { signInUser } = UserAuth();
@@ -16,11 +17,10 @@ function Login() {
     })
 
     const [showPassword, setShowPassword] = useState(false);
-
-    const [error, setError] = useState("");
-    const [loading, setLoading] = useState(false);
-
     
+    
+    const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);  
     const navigate = useNavigate();
 
     const validateForm = () => {
@@ -49,16 +49,48 @@ function Login() {
       return;
     }
 
-    // SUCCESS — redirect to dashboard
-    navigate("/reporterdashboard");
+    const loggedInUser = result.user;
+
+    const { data: profile } = await supabase
+    .from("profiles")
+    .select("role")
+    .eq("user_id", loggedInUser.id)
+    .single();
+
+    if (error || !profile) {
+      alert("Profile not found");
+      return;
+    }
+
+    setLoading(false);
+
+      switch (profile.role) {
+        case "admin":
+          navigate("/adminDashboard");
+          break;
+        case "technician":
+          navigate("/technicianDashboard");
+          break;
+        case "reporter":
+          navigate("/reporterDashboard");
+          break;
+        default:
+          navigate("/reporterDashboard");
+          break;
+      }
+
+
   };
+
+
+  
 
   return (
     <main className='w-full h-screen flex flex-col justify-center items-center '>
         <div className='p-2 m-5 bg-background-black/50 rounded-lg border-border/50 shadow-lg border absolute top-0 right-0 w-auto flex justify-center items-center' >
             <Theme style='flex item-center cursor-pointer py-1'/>
         </div>
-        <div className='bg-background-black flex flex-col gap-5 w-80 sm:w-102 lg:w-115 px-6 py-6 sm:p-8 rounded-xl shadow-lg border-border/50 border'>
+        <div className='bg-background-black flex flex-col gap-5 w-80 sm:w-102 lg:w-115 px-6 py-6 sm:p-8 rounded-xl shadow-lg border-border/50 border h-auto'>
           <h2 className="text-text text-2xl mb-3 text-center">Sign In</h2>
 
           <form onSubmit={handleLogin} className="flex flex-col gap-5">

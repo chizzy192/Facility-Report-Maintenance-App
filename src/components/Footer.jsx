@@ -10,7 +10,7 @@ function Footer() {
                 </svg>}
 
                 textStyle = "text-text-muted text-md"
-                logoText = "FacilityReport"
+                logoText = "FacilityFix"
                 
             />
             <p className="text-text-muted">
@@ -18,7 +18,7 @@ function Footer() {
             </p>
         </div>
         <div className="border-t border-border mt-6 sm:mt-8 pt-6 sm:pt-8 text-center">
-            <p className="text-sm sm:text-base text-text-muted">© 2025 FacilityReport. All rights reserved.</p>
+            <p className="text-sm sm:text-base text-text-muted">© 2025 FacilityFix. All rights reserved.</p>
         </div>
     </footer>
   )

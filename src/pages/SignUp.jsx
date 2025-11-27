@@ -12,6 +12,7 @@ import { UserAuth } from '../context/AuthContext'
 import { Wrench } from 'lucide-react'
 
 
+
 function SignUp() {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -26,10 +27,8 @@ function SignUp() {
     const [success, setSuccess] = useState("");
     const [loading, setLoading] = useState(false);
     
-
     const {signUpNewUser} = UserAuth();
     const navigate = useNavigate();
-    console.log(form.name, form.email, form.password)
 
     const validateForm = () => {
         if(form.name.trim().length < 3) return "Name must be at least 3 characters.";
@@ -56,7 +55,7 @@ function SignUp() {
             const result = await signUpNewUser(form.name, form.email, form.password)
             if(result.success) {
                 setSuccess('Hurray, account successfully created!');
-                navigate('/login')
+                navigate("/login");
             }
         } catch (err){
             setError(err.message || "Something went wrong")

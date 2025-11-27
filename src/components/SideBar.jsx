@@ -1,27 +1,33 @@
 import {useEffect, useRef, useState} from 'react'
-import { Link } from 'react-router'
+import { Link, useNavigate } from 'react-router'
 import Theme from './Theme.jsx'
 import { supabase } from '../subabaseClient.js'
 import { FileSpreadsheet } from 'lucide-react'
-
+import { UserAuth } from '../context/AuthContext.jsx'
 
 const SideBar = ({text='text', links = []}) => {
+  const {signOutUser, user} = UserAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  
 
   const sidebarRef = useRef(null);
   const isMobile = window.innerWidth < 1024;
+  const navigate = useNavigate();
+  
 
-  const [user, setUser] = useState(null);
+  const handleSignOut = async (e) => {
+    e.preventDefault();
+    
+    const result = await signOutUser();
 
-  useEffect(() => {
-    const getUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      setUser(user);
-    };
-
-    getUser();
-      }, []);
+    try {
+      await signOutUser();
+      navigate('/');  
+    } catch (err) {
+      console.error("sign out failed:", err);
+    }
+  }
 
 
 
@@ -106,7 +112,7 @@ const SideBar = ({text='text', links = []}) => {
                     key={i}
                     to={link.to}
                     onClick={() => setIsOpen(false)}
-                    className={`hover:bg-primary-dark/20  p-2.5 mx-4 my-1 rounded-lg transition flex active:text-primary-dark text-text-muted ${!isHovered && !isMobile ? 'justify-center' : 'justify-start'}`}
+                    className={`hover:bg-primary-dark/20  p-2.5 mx-4 my-1 rounded-lg transition flex active:text-primary-dark focus:text-primary-dark text-text-muted ${!isHovered && !isMobile ? 'justify-center' : 'justify-start'}`}
                   >
                     {link.logo}
                     <p className={`ml-3 ${isHovered ? 'flex' : 'lg:hidden'}`}>{link.label}</p>
@@ -125,7 +131,7 @@ const SideBar = ({text='text', links = []}) => {
 
             {(isHovered || isOpen) ? (<Theme style='p-2 bg-background-black/50 rounded-lg border-border/50 shadow-lg border w-full  flex justify-start items-center cursor-pointer' showText='true'/>) : <Theme style='p-2 bg-background-black/50 rounded-lg border-border/50 shadow-lg border w-full flex justify-start items-center cursor-pointer'/>}
               
-            <button className='p-2 bg-background-black/50 rounded-lg border-border/50 shadow-lg border w-full flex justify-start items-center cursor-pointer text-error'>
+            <button className='p-2 bg-background-black/50 rounded-lg border-border/50 shadow-lg border w-full flex justify-start items-center cursor-pointer text-error' onClick={handleSignOut}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24"   height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-log-out h-5 w-5 text-error"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" x2="9" y1="12" y2="12"></line></svg>
                 <h3 class={`text-error text-md ${isHovered ? "flex" : 'lg:hidden'}  ml-4`}>Logout</h3>
             </button>

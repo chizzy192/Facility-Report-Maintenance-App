@@ -27,7 +27,6 @@ const cards = [{
 function LandingPage() {
   return (
     <>
-
       <Header />
       <main className='px-6 md:px-13 py-26'>
         <section className=" max-w-7xl mx-auto px-4 sm:px-6 lg:px-8  sm:pt-24 lg:pt-32">

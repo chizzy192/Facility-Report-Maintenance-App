@@ -20,7 +20,7 @@ function StatusBadge({status}) {
       dot: 'bg-orange-500',
       label: 'In Progress'
     },
-    'awaiting-confirmation': {
+    'completed_waiting_admin': {
       bg: 'bg-purple-500/10 dark:bg-purple-500/20',
       text: 'text-purple-600 dark:text-purple-400',
       dot: 'bg-purple-500',

@@ -16,11 +16,12 @@ import Categories from './pages/Admin/Sections/Categories'
 import AdminNotifications from "./pages/Admin/Sections/AdminNotifications"
 import Settings from "./pages/Admin/Sections/Settings"
 
-import TechnicanDashboard from "./pages/Technician/TechnicianDashboard"
+import TechnicianDashboard from "./pages/Technician/TechnicianDashboard"
 import AssignedTasks from "./pages/Technician/Sections/AssignedTasks"
 import InProgress from "./pages/Technician/Sections/InProgress"
 import Completed from "./pages/Technician/Sections/Completed"
 import TechnicianNotification from "./pages/Technician/Sections/TechnicianNotification"
+import ProtectedRoute from "../src/components/ProtectedRoute" 
 
 export const router = createBrowserRouter ([
     {path: "/", element: <App/>},
@@ -28,7 +29,10 @@ export const router = createBrowserRouter ([
     { path: '/login', element: <Login />},
     {
         path: "/reporterdashboard",
-        element: <ReporterDashboard />,
+        element: 
+            <ProtectedRoute>
+                <ReporterDashboard />
+            </ProtectedRoute>,
         children: [
             { path: "", element: <Home /> },
             { path: "myreports", element: <MyReports /> },
@@ -38,7 +42,10 @@ export const router = createBrowserRouter ([
     },
     { 
         path: '/admindashboard', 
-        element: <AdminDashboard />,
+        element: 
+        <ProtectedRoute>
+            <AdminDashboard />
+        </ProtectedRoute>,
         children: [
             { path: '', element: <Reports/>},
             { path: 'users', element: <Users/>},
@@ -48,8 +55,11 @@ export const router = createBrowserRouter ([
         ]
     },
     {
-        path: '/technicandashboard',
-        element: <TechnicanDashboard />,
+        path: '/techniciandashboard',
+        element: 
+            <ProtectedRoute>
+                <TechnicianDashboard />
+            </ProtectedRoute>,
         children: [
             { path: '', element: <AssignedTasks/> },
             { path: 'inprogress', element: <InProgress/> },

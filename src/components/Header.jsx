@@ -14,7 +14,7 @@ function Header() {
                     </svg>}
 
                     textStyle = "text-text text-md"
-                    logoText = "FacilityReport"
+                    logoText = "FacilityFix"
                   
                   />
 

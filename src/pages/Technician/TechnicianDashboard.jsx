@@ -3,7 +3,7 @@ import { Outlet } from 'react-router'
 import { Clipboard, CircleCheckBig, Users, FileSpreadsheet, Bell, Settings } from 'lucide-react'
 
 
-function TechnicanDashboard() {
+function TechnicianDashboard() {
     const dashboardLinks = [{
         label: "Assigned Tasks",
         to: "",
@@ -35,4 +35,4 @@ function TechnicanDashboard() {
     )
 }
 
-export default TechnicanDashboard
+export default TechnicianDashboard
