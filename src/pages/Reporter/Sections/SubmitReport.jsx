@@ -80,6 +80,7 @@ function SubmitReport() {
   }
 
   const handleSubmit = async (e) => {
+    e.preventDefault();
     setError("");
     setSuccess("");
 
