@@ -12,25 +12,38 @@ function AdminReviewTasks() {
   const fetchReviewTasks = async () => {
     setLoading(true);
     try {
-      // Fetch tasks with status 'completed_waiting_admin' and join with users table
-      const { data, error } = await supabase
+      // Fetch tasks with status 'completed_waiting_admin'
+      const { data: tasksData, error: tasksError } = await supabase
         .from("reports")
-        .select(`
-          *,
-          reporter:users!reports_reported_by_fkey(id, full_name, email),
-          technician:users!reports_assigned_to_fkey(id, full_name, email)
-        `)
+        .select("*")
         .eq("status", "completed_waiting_admin")
         .order("created_at", { ascending: false });
 
-      console.log("Tasks awaiting admin review:", data);
+      console.log("Tasks awaiting admin review:", tasksData);
+      console.log("Error (if any):", tasksError);
       
-      if (error) {
-        console.error("Error fetching review tasks:", error);
+      if (tasksError) {
+        console.error("Error fetching review tasks:", tasksError);
         return;
       }
 
-      setReviewTasks(data || []);
+      // Fetch profiles to map names
+      const { data: profilesData, error: profilesError } = await supabase
+        .from("profiles")
+        .select("user_id, full_name");
+
+      if (profilesError) {
+        console.error("Error fetching profiles:", profilesError);
+      }
+
+      // Map technician and reporter names to tasks
+      const tasksWithNames = (tasksData || []).map(task => ({
+        ...task,
+        technician: profilesData?.find(p => p.user_id === task.assigned_to),
+        reporter: profilesData?.find(p => p.user_id === task.reported_by)
+      }));
+
+      setReviewTasks(tasksWithNames);
     } catch (err) {
       console.error("Error:", err);
     } finally {
@@ -55,14 +68,8 @@ function AdminReviewTasks() {
         
         // If status changed to completed_waiting_admin, add it to the list
         if (payload.new.status === "completed_waiting_admin") {
-          setReviewTasks(prev => {
-            const exists = prev.find(task => task.id === payload.new.id);
-            if (!exists) {
-              return [payload.new, ...prev];
-            }
-            return prev;
-          });
-        } else {
+          fetchReviewTasks(); // Refetch to get complete data with names
+        } else if (payload.old?.status === "completed_waiting_admin") {
           // If status changed away from completed_waiting_admin, remove it
           setReviewTasks(prev => prev.filter(task => task.id !== payload.new.id));
         }
@@ -195,14 +202,14 @@ function AdminReviewTasks() {
                   <p className="flex justify-between items-center">
                     <span className="text-text-muted text-sm">Reported by:</span>
                     <span className="text-text">
-                      {task.reporter?.full_name || task.reported_by || 'Unknown'}
+                      {task.reporter?.full_name || 'Unknown'}
                     </span>
                   </p>
 
                   <p className="flex justify-between items-center">
                     <span className="text-text-muted text-sm">Assigned to:</span>
                     <span className="text-text">
-                      {task.technician?.full_name || task.assigned_to || 'Unknown'}
+                      {task.technician?.full_name || 'Unknown'}
                     </span>
                   </p>    
                 </div>
