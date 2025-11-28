@@ -8,13 +8,13 @@ function StatusBadge({status}) {
       dot: 'bg-yellow-500',
       label: 'Pending'
     },
-    'waiting-approval': {
+    'waiting_approval': {
       bg: 'bg-blue-500/10 dark:bg-blue-500/20',
       text: 'text-blue-600 dark:text-blue-400',
       dot: 'bg-blue-500',
       label: 'Waiting for Approval'
     },
-    'in-progress': {
+    'in_progress': {
       bg: 'bg-orange-500/10 dark:bg-orange-500/20',
       text: 'text-orange-600 dark:text-orange-400',
       dot: 'bg-orange-500',

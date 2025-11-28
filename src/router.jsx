@@ -13,7 +13,7 @@ import AdminDashboard from "./pages/Admin/AdminDashboard"
 import Reports from './pages/Admin/Sections/Reports'
 import Users from './pages/Admin/Sections/Users'
 import Categories from './pages/Admin/Sections/Categories'
-import AdminNotifications from "./pages/Admin/Sections/AdminNotifications"
+import AdminReviewTasks from "./pages/Admin/Sections/AdminReviewTasks"
 import Settings from "./pages/Admin/Sections/Settings"
 
 import TechnicianDashboard from "./pages/Technician/TechnicianDashboard"
@@ -50,7 +50,7 @@ export const router = createBrowserRouter ([
             { path: '', element: <Reports/>},
             { path: 'users', element: <Users/>},
             { path: 'categories', element: <Categories/>},
-            { path: 'notifications', element: <AdminNotifications/>},
+            { path: 'notifications', element: <AdminReviewTasks/>},
             { path: 'settings', element: <Settings/>}
         ]
     },

@@ -2,13 +2,26 @@ import { CalendarIcon, MapPinHouseIcon } from "lucide-react"
 import SectionHeader from "../../../components/SectionHeader"
 import StatusBadge from "../../../components/StatusBadge"
 import { useEffect, useState } from "react"
-import { supabase } from "../../../subabaseClient"
+import { supabase } from "../../../supabaseClient"
 
 function Home() {
     const [reports, setReports] = useState([]);
+    
     const fetchData = async () => {
-        const {data} = await supabase.from("reports").select('*').order("created_at", {ascending: false})
-        setReports(data)
+        // Fetch reports with assigned technician details using a join
+        const {data, error} = await supabase
+            .from("reports")
+            .select(`
+                *,
+                assigned_technician:profiles!reports_assigned_to_fkey(user_id, full_name)
+            `)
+            .order("created_at", {ascending: false})
+        
+        if (error) {
+            console.error("Error fetching reports:", error);
+            return;
+        }
+        setReports(data || []);
     }
     
     useEffect(()=> {
@@ -18,12 +31,22 @@ function Home() {
 
     useEffect(() => {
       const channel = supabase.channel("reports-channel");
-      channel.on("postgres_changes", {event: "INSERT", schema: "public", table: "reports"}, (payload) => {
+      channel.on("postgres_changes", {
+        event: "INSERT", 
+        schema: "public", 
+        table: "reports"
+      }, (payload) => {
         const newReport = payload.new;
-        setReports((prev)=> [...prev, newReport])
+        // Add new report to the beginning since we sort by newest first
+        setReports((prev)=> [newReport, ...prev])
       }).subscribe((status) => {
-        console.log("subscription")
+        console.log("Subscription status:", status)
       })
+
+      // Cleanup subscription
+      return () => {
+        supabase.removeChannel(channel);
+      }
     }, [])
 
   return (
@@ -40,7 +63,7 @@ function Home() {
             {report.image_url && (<img 
                 src={report.image_url}
                 alt="" 
-                className="w-full h-40 rounded-tl-2xl rounded-tr-2xl "
+                className="w-full h-40 rounded-tl-2xl rounded-tr-2xl object-cover"
             />)}
 
             <div className="m-5">
@@ -49,9 +72,6 @@ function Home() {
                         <h2 className="text-text text-lg w-[70%]">
                             {report.title}
                         </h2>
-                        {/* <p className="bg-primary-dark/20 border-primary-dark border py-1 px-1 sm:px-2 rounded-2xl text-xs text-primary-dark">
-                            
-                        </p> */}
 
                         <StatusBadge
                             status={report.status}
@@ -89,7 +109,9 @@ function Home() {
                   {report.assigned_to && (
                     <p className="flex justify-between items-center">
                       <span className="text-text-muted text-sm">Assigned to:</span>
-                      <span className="text-text">{report.assigned_to}</span>
+                      <span className="text-text">
+                        {report.assigned_technician?.full_name || 'Unknown'}
+                      </span>
                   </p> 
                   )}
                      

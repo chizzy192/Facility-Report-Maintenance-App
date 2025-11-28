@@ -7,7 +7,7 @@ import passwordLock from "../assets/passwordLock.svg";
 import eyeOpen from "../assets/eyeOpen.svg";
 import eyeOff from "../assets/eyeOff.svg";
 import Theme from "../components/Theme";
-import { supabase } from "../subabaseClient";
+import { supabase } from "../supabaseClient";
 
 function Login() {
     const { signInUser } = UserAuth();

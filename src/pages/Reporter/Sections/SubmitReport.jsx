@@ -1,23 +1,22 @@
 import FormInput from '../../../components/FormInput'
 import Buttons from '../../../components/Buttons'
 import SectionHeader from '../../../components/SectionHeader'
-import { supabase } from '../../../subabaseClient'
+import { supabase } from '../../../supabaseClient'
 import { Upload, X } from "lucide-react"
 import { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { UserAuth } from '../../../context/AuthContext';
-import DropDown from '../../../components/DropDown'
-import { useNavigate } from 'react-router'
+import { useNavigate } from 'react-router';
 
-const categories = ["Electrical", "Plumbing", "Cleaning", "Security"];
+
 function SubmitReport() {
   const {user} = UserAuth();
   const [dataURL, setDataURL] = useState(null);
   const [uploadedURL, setUploadedURL] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [category, setCategory] = useState("");
   const [success, setSuccess] =useState("");
   const [error, setError] = useState("");
+  const navigate = useNavigate();
   
   const onDrop = useCallback(acceptedFiles => {
     acceptedFiles.forEach(file => {
@@ -99,7 +98,7 @@ function SubmitReport() {
 
     const {error} = await supabase
       .from("reports")
-      .insert({...reportForm, image_url, user_id: user.id, category: category, reported_by: user?.user_metadata?.full_name })
+      .insert({...reportForm, image_url, user_id: user.id, reported_by: user?.user_metadata?.full_name })
       .single()
 
     if(error) {
@@ -111,11 +110,11 @@ function SubmitReport() {
           description: "",
           location: "",
         });
-        setCategory("");
         setDataURL(null);
         setUploadedURL(null);
         setError("")
         setSuccess("Report successfully submitted")
+        navigate('/reporterdashboard')
         
     }
 
@@ -155,16 +154,6 @@ function SubmitReport() {
                 ></textarea>                
             </div>
           </div>
-
-          <div className='flex flex-col sm:flex-row justify-between items-center gap-5'>
-            <div className='w-full flex flex-col gap-1 '>
-              <DropDown
-                categories={categories}
-                value={category}
-                onChange={setCategory}
-              />
-            </div>
-            
             
             <FormInput
               label = 'Location *'
@@ -172,7 +161,7 @@ function SubmitReport() {
               placeholder="e.g., Building A - Rom 301"
               onChange={(e) => setReportForm({...reportForm, location: e.target.value})}
             />
-          </div>
+
 
           <div>
             <p className="font-bold text-text mb-2">Upload Images (Optional)</p>

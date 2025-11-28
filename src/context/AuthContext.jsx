@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState, useContext } from "react";
-import { supabase } from "../subabaseClient";
+import { supabase } from "../supabaseClient";
 import { useNavigate } from "react-router";
 import TechnicanDashboard from "../pages/Technician/TechnicianDashboard";
 

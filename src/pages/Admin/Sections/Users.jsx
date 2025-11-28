@@ -1,7 +1,7 @@
 import {useState, useEffect} from 'react'
 import SectionHeader from '../../../components/SectionHeader'
 import {  Edit } from 'lucide-react'
-import { supabase } from '../../../subabaseClient';
+import { supabase } from '../../../supabaseClient';
 
 function Users() {
   const [loading, setLoading] = useState(false);
@@ -104,7 +104,6 @@ function Users() {
               <th className="px-4 py-2 text-left">Name</th>
               <th className="px-4 py-2 text-left">Email</th>
               <th className="px-4 py-2 text-left">Role</th>
-              <th className="px-4 py-2 text-left">Category</th>
               <th className="px-4 py-2 text-left">Action</th>
               <th className="px-4 py-2 text-left"></th>
             </tr>
@@ -123,9 +122,6 @@ function Users() {
                   <span className='bg-surface p-1.5 flex items-center justify-center text-xs rounded-xl'>
                     {profile.role}
                   </span>
-                </td>
-                <td className="whitespace-nowrap px-4 py-2 text-text">
-                  -
                 </td>
                 <td className="whitespace-nowrap px-4 py-2 text-text">
                   {renderRoleButton(profile)}

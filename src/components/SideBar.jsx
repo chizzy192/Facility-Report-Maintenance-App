@@ -1,7 +1,7 @@
 import {useEffect, useRef, useState} from 'react'
 import { Link, useNavigate } from 'react-router'
 import Theme from './Theme.jsx'
-import { supabase } from '../subabaseClient.js'
+import { supabase } from '../supabaseClient.js'
 import { FileSpreadsheet } from 'lucide-react'
 import { UserAuth } from '../context/AuthContext.jsx'
 
@@ -48,7 +48,7 @@ const SideBar = ({text='text', links = []}) => {
     <header className='relative top-0 left-0 h-fulltransform transition-transform duration-300 ease-in-out z-10 border-border/50 border shadow-md hover:lg:w-68 lg:w-21'>
       <button onClick={(e) => {
     e.stopPropagation(); 
-    setIsOpen(!isOpen);}} className={` p-1 m-5 bg-background-black/50 rounded-lg border-border shadow-lg border absolute top-0 left-0 w-auto justify-center items-center lg:hidden cursor-pointer`}>
+    setIsOpen(!isOpen);}} className={` p-1 m-5 bg-background-black rounded-lg border-border shadow-lg border absolute top-0 left-0 w-auto justify-center items-center lg:hidden cursor-pointer`}>
         {!isOpen && (
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide flex js-menu bg-background text-text lucide-menu h-6 w-6"><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg>
         )}
