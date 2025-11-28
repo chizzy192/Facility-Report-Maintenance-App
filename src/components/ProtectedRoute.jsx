@@ -1,3 +1,4 @@
+// src/components/ProtectedRoute.jsx
 import { Navigate } from 'react-router';
 import { UserAuth } from '../context/AuthContext';
 import { useEffect, useState } from 'react';
@@ -34,7 +35,6 @@ function ProtectedRoute({ children, allowedRoles }) {
     fetchUserRole();
   }, [user]);
 
-  // Show loading state while checking authentication
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">
@@ -43,20 +43,23 @@ function ProtectedRoute({ children, allowedRoles }) {
     );
   }
 
-  // Redirect to login if not authenticated
   if (!user) {
     return <Navigate to="/login" replace />;
   }
 
-  // Check if user has required role
-  if (allowedRoles && !allowedRoles.includes(userRole)) {
-    return (
-      <div className="flex flex-col items-center justify-center h-screen gap-4">
-        <h1 className="text-2xl font-bold text-error">Access Denied</h1>
-        <p className="text-text-muted">You don't have permission to access this page.</p>
-        <Navigate to="/login" replace />
-      </div>
-    );
+  // Check role-based access
+  if (allowedRoles && userRole && !allowedRoles.includes(userRole)) {
+    // Redirect to their correct dashboard based on role
+    switch(userRole) {
+      case 'admin':
+        return <Navigate to="/admindashboard" replace />;
+      case 'technician':
+        return <Navigate to="/techniciandashboard" replace />;
+      case 'reporter':
+        return <Navigate to="/reporterdashboard" replace />;
+      default:
+        return <Navigate to="/login" replace />;
+    }
   }
 
   return children;

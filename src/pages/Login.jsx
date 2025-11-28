@@ -51,39 +51,37 @@ function Login() {
 
     const loggedInUser = result.user;
 
-    const { data: profile } = await supabase
+    // Fixed: use roleError instead of error
+    const { data: profile, error: roleError } = await supabase
     .from("profiles")
     .select("role")
     .eq("user_id", loggedInUser.id)
     .single();
 
-    if (error || !profile) {
-      alert("Profile not found");
+    if (roleError || !profile) {
+      setError("Profile not found");
+      setLoading(false);
       return;
     }
 
     setLoading(false);
 
-      switch (profile.role) {
-        case "admin":
-          navigate("/adminDashboard");
-          break;
-        case "technician":
-          navigate("/technicianDashboard");
-          break;
-        case "reporter":
-          navigate("/reporterDashboard");
-          break;
-        default:
-          navigate("/reporterDashboard");
-          break;
-      }
-
-
+    // Navigate based on role
+    switch (profile.role) {
+      case "admin":
+        navigate("/admindashboard");
+        break;
+      case "technician":
+        navigate("/techniciandashboard");
+        break;
+      case "reporter":
+        navigate("/reporterdashboard");
+        break;
+      default:
+        navigate("/reporterdashboard");
+        break;
+    }
   };
-
-
-  
 
   return (
     <main className='w-full h-screen flex flex-col justify-center items-center '>
@@ -130,7 +128,7 @@ function Login() {
           </form>
 
           <p className="text-text-muted text-center">
-            Don’t have an account?{" "}
+            Don't have an account?{" "}
             <Link to="/signup" className="text-primary-dark">
               Sign Up
             </Link>

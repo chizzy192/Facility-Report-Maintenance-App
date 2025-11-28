@@ -3,9 +3,15 @@ import SectionHeader from "../../../components/SectionHeader"
 import StatusBadge from "../../../components/StatusBadge"
 import { useEffect, useState } from "react"
 import { supabase } from "../../../supabaseClient"
+import Masonry from 'react-masonry-css';
 
 function Home() {
     const [reports, setReports] = useState([]);
+      const breakpointColumns = {
+        default: 3,
+        1100: 2,
+        500: 1
+      };
     
     const fetchData = async () => {
         // Fetch reports with assigned technician details using a join
@@ -56,7 +62,11 @@ function Home() {
             text="View all active facility reports"
         />
         {/* my card */}
-      <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'>
+      <Masonry
+        breakpointCols={breakpointColumns}
+        className="my-masonry-grid"
+        columnClassName="my-masonry-grid_column"
+      >
 
         {reports.map (report => (  
         <div key={report.id} className="border-border/50 border bg-background-black rounded-2xl gap-3 shadow-md ">
@@ -119,7 +129,7 @@ function Home() {
             </div>
         </div>
         ))}
-      </div>
+      </Masonry>
     </section>
   )
 }

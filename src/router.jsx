@@ -1,3 +1,4 @@
+// src/router.jsx
 import { createBrowserRouter } from "react-router"
 import App from "./App"
 import SignUp from "./pages/SignUp"
@@ -30,7 +31,7 @@ export const router = createBrowserRouter ([
     {
         path: "/reporterdashboard",
         element: 
-            <ProtectedRoute>
+            <ProtectedRoute allowedRoles={['reporter']}>
                 <ReporterDashboard />
             </ProtectedRoute>,
         children: [
@@ -43,7 +44,7 @@ export const router = createBrowserRouter ([
     { 
         path: '/admindashboard', 
         element: 
-        <ProtectedRoute>
+        <ProtectedRoute allowedRoles={['admin']}>
             <AdminDashboard />
         </ProtectedRoute>,
         children: [
@@ -57,7 +58,7 @@ export const router = createBrowserRouter ([
     {
         path: '/techniciandashboard',
         element: 
-            <ProtectedRoute>
+            <ProtectedRoute allowedRoles={['technician']}>
                 <TechnicianDashboard />
             </ProtectedRoute>,
         children: [

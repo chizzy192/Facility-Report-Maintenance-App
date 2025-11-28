@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import SectionHeader from "../../../components/SectionHeader";
 import { UserAuth } from "../../../context/AuthContext";
 import StatusBadge from "../../../components/StatusBadge"
+import Masonry from 'react-masonry-css';
 
 function MyReports() {
   const { user } = UserAuth();
@@ -14,6 +15,12 @@ function MyReports() {
     inProgress: 0,
     resolved: 0
   });
+
+    const breakpointColumns = {
+      default: 3,
+      1100: 2,
+      500: 1
+    };
 
   const fetchData = async () => {
     if (!user?.id) return;
@@ -172,7 +179,11 @@ function MyReports() {
         </button>
       </div>
 
-      <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3'>
+      <Masonry
+        breakpointCols={breakpointColumns}
+        className="my-masonry-grid"
+        columnClassName="my-masonry-grid_column"
+      >
         {reports.length === 0 ? (
           <div className="col-span-full text-center py-12">
             <p className="text-text-muted">No reports found. Create your first report to get started!</p>
@@ -237,7 +248,7 @@ function MyReports() {
             </div>
           ))
         )}
-      </div>  
+      </Masonry>  
     </section>
   )
 }

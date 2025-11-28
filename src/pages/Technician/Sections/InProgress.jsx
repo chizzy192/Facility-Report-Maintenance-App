@@ -5,11 +5,18 @@ import SectionHeader from '../../../components/SectionHeader'
 import StatusBadge from '../../../components/StatusBadge'
 import { supabase } from '../../../supabaseClient'
 import { UserAuth } from '../../../context/AuthContext'
+import Masonry from 'react-masonry-css';
 
 function InProgress() {
   const { user } = UserAuth();
   const [inProgressTasks, setInProgressTasks] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const breakpointColumns = {
+    default: 3,
+    1100: 2,
+    500: 1
+  };
 
   const fetchInProgressTasks = async () => {
     if (!user?.id) {
@@ -122,7 +129,11 @@ function InProgress() {
           <p className="text-text-muted text-sm mt-2">Accept tasks from "Assigned Tasks" to see them here</p>
         </div>
       ) : (
-        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3'>
+        <Masonry
+          breakpointCols={breakpointColumns}
+          className="my-masonry-grid"
+          columnClassName="my-masonry-grid_column"
+        >
           {inProgressTasks.map(task => (
             <div key={task.id} className="border-border/50 border bg-background-black rounded-2xl gap-3 shadow-md">
               {task.image_url && (
@@ -197,7 +208,7 @@ function InProgress() {
               </div>
             </div>
           ))}
-        </div>
+        </Masonry>
       )}
     </section>
   )
