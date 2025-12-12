@@ -41,22 +41,29 @@ function Login() {
 
     setLoading(true);
 
-    const result = await signInUser(form.email, form.password);
+    let result;
+    try {
+      result = await signInUser(form.email, form.password);
+    } catch (err) {
+      setError(err?.message || "Sign in failed");
+      setLoading(false);
+      return;
+    }
 
-    if (!result.success) {
-      setError(result.error);
+    // handle sign-in errors returned by signInUser
+    if (!result || result.error) {
+      setError(result?.error?.message || result?.error || "Sign in failed");
       setLoading(false);
       return;
     }
 
     const loggedInUser = result.user;
 
-    // Fixed: use roleError instead of error
     const { data: profile, error: roleError } = await supabase
-    .from("profiles")
-    .select("role")
-    .eq("user_id", loggedInUser.id)
-    .single();
+      .from("profiles")
+      .select("role")
+      .eq("user_id", loggedInUser.id)
+      .single();
 
     if (roleError || !profile) {
       setError("Profile not found");
@@ -64,9 +71,10 @@ function Login() {
       return;
     }
 
+    // Clear form and stop loading before navigation
+    setForm({ email: "", password: "" });
     setLoading(false);
 
-    // Navigate based on role
     switch (profile.role) {
       case "admin":
         navigate("/admindashboard");
@@ -100,6 +108,7 @@ function Login() {
                   placeholder="you@example.com"
                   className='w-5 h-5'
                   onChange= {(e)=> setForm({...form, email: e.target.value})}
+                  value={form.email}
               />
 
               <FormInput
@@ -114,6 +123,7 @@ function Login() {
                   eyesIcon = {showPassword ? eyeOff : eyeOpen}
                   className='w-5 h-5'
                   onChange= {(e)=> setForm({...form,password: e.target.value})}
+                  value={form.password}
               />
 
             {error && <p className="text-error text-sm">{error}</p>}

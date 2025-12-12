@@ -50,7 +50,7 @@ const SideBar = ({text='text', links = []}) => {
     e.stopPropagation(); 
     setIsOpen(!isOpen);}} className={` p-1 m-5 bg-background-black rounded-lg border-border shadow-lg border absolute top-0 left-0 w-auto justify-center items-center lg:hidden cursor-pointer`}>
         {!isOpen && (
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide flex js-menu bg-background text-text lucide-menu h-6 w-6"><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide flex js-menu bg-background text-text lucide-menu h-6 w-6"><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg>
         )}
     </button>
 
@@ -132,8 +132,8 @@ const SideBar = ({text='text', links = []}) => {
             {(isHovered || isOpen) ? (<Theme style='p-2 bg-background-black/50 rounded-lg border-border/50 shadow-lg border w-full  flex justify-start items-center cursor-pointer' showText='true'/>) : <Theme style='p-2 bg-background-black/50 rounded-lg border-border/50 shadow-lg border w-full flex justify-start items-center cursor-pointer'/>}
               
             <button className='p-2 bg-background-black/50 rounded-lg border-border/50 shadow-lg border w-full flex justify-start items-center cursor-pointer text-error' onClick={handleSignOut}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24"   height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-log-out h-5 w-5 text-error"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" x2="9" y1="12" y2="12"></line></svg>
-                <h3 class={`text-error text-md ${isHovered ? "flex" : 'lg:hidden'}  ml-4`}>Logout</h3>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24"   height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-log-out h-5 w-5 text-error"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" x2="9" y1="12" y2="12"></line></svg>
+                <h3 className={`text-error text-md ${isHovered ? "flex" : 'lg:hidden'}  ml-4`}>Logout</h3>
             </button>
           </div>         
         </nav> 

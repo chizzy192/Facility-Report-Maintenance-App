@@ -3,39 +3,37 @@ const status = 'pending' | 'waiting-approval' | 'in-progress' | 'awaiting-confir
 function StatusBadge({status}) {
     const variants = {
     'pending': {
-      bg: 'bg-yellow-500/10 dark:bg-yellow-500/20',
-      text: 'text-yellow-600 dark:text-yellow-400',
-      dot: 'bg-yellow-500',
+      bg: 'bg-yellow-500 dark:bg-yellow-400',
+      text: 'text-yellow-600 uppercase font-bold ',
       label: 'Pending'
     },
     'waiting_approval': {
-      bg: 'bg-blue-500/10 dark:bg-blue-500/20',
-      text: 'text-blue-600 dark:text-blue-400',
-      dot: 'bg-blue-500',
+      bg: 'bg-blue-300 dark:bg-blue-400',
+      text: 'text-blue-600 uppercase font-bold',
       label: 'Waiting for Approval'
     },
     'in_progress': {
-      bg: 'bg-orange-500/10 dark:bg-orange-500/20',
-      text: 'text-orange-600 dark:text-orange-400',
-      dot: 'bg-orange-500',
+      bg: 'bg-orange-300 dark:bg-orange-400',
+      text: 'text-orange-600 uppercase font-bold',
+      
       label: 'In Progress'
     },
     'completed_waiting_admin': {
-      bg: 'bg-purple-500/10 dark:bg-purple-500/20',
-      text: 'text-purple-600 dark:text-purple-400',
-      dot: 'bg-purple-500',
+      bg: 'bg-purple-300 dark:bg-purple-400',
+      text: 'text-purple-600 uppercase font-bold',
+      
       label: 'Awaiting Confirmation'
     },
     'fixed': {
-      bg: 'bg-green-500/10 dark:bg-green-500/20',
-      text: 'text-green-600 dark:text-green-400',
-      dot: 'bg-green-500',
+      bg: 'bg-green-300 dark:bg-green-400',
+      text: 'text-green-600 uppercase font-bold',
+      
       label: 'Fixed'
     },
     'unassigned': {
-      bg: 'bg-gray-500/10 dark:bg-gray-500/20',
-      text: 'text-gray-600 dark:text-gray-400',
-      dot: 'bg-gray-500',
+      bg: 'bg-gray-300/20 dark:bg-gray-400/20',
+      text: 'text-text-muted uppercase font-bold',
+      
       label: 'Unassigned'
     }
   }
@@ -44,8 +42,7 @@ function StatusBadge({status}) {
 
    const variant = variants[status];
   return (
-    <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs ${variant.bg} ${variant.text}`}>
-      <span className={`w-1.5 h-1.5 rounded-full ${variant.dot}`} />
+    <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs ${variant.bg} ${variant.text}`}>
       {variant.label}
     </span>
   )

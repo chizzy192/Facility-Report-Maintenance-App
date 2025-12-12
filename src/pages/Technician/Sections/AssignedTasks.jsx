@@ -6,6 +6,7 @@ import StatusBadge from '../../../components/StatusBadge'
 import { supabase } from '../../../supabaseClient'
 import { UserAuth } from '../../../context/AuthContext'
 import Masonry from 'react-masonry-css';
+import PriorityBadge from '../../../components/PriorityBadge'
 
 function AssignedTasks() {
   const { user } = UserAuth();
@@ -206,7 +207,22 @@ function AssignedTasks() {
           columnClassName="my-masonry-grid_column"
         >
           {assignedTasks.map(task => (
-            <div key={task.id} className="border-border/50 border bg-background-black rounded-2xl gap-3 shadow-md">
+            <div key={task.id} className="border-border/50 border bg-background-black rounded-2xl gap-3 shadow-md relative">
+
+              {task.image_url && (
+                <div className="absolute right-0 m-2">
+                  <StatusBadge
+                    status={task.status}
+                />
+                </div>
+              )}
+    
+              {!task.image_url &&  (<div className="m-2">
+                <StatusBadge
+                  status={task.status}
+              />
+              </div>)}
+              
               {task.image_url && (
                 <img 
                   src={task.image_url}
@@ -219,9 +235,10 @@ function AssignedTasks() {
                 <div className="mb-3 flex flex-col w-auto">
                   <div className="flex flex-row mb-1 justify-between items-center">
                     <h2 className="text-text text-lg w-[70%]">
-                      {task.title}
+                        {task.title}
                     </h2>
-                    <StatusBadge status={task.status} />
+
+                    <PriorityBadge priority={task.priority} />
                   </div>
 
                   <div>

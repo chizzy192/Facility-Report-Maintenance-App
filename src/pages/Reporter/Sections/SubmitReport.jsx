@@ -7,7 +7,13 @@ import { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { UserAuth } from '../../../context/AuthContext';
 import { useNavigate } from 'react-router';
+import DropDown from '../../../components/DropDown'
+import { categories } from '../../../components/categories'
 
+
+const priority = [
+  'low', 'medium', 'high'
+];
 
 function SubmitReport() {
   const {user} = UserAuth();
@@ -17,6 +23,7 @@ function SubmitReport() {
   const [success, setSuccess] =useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const [selectedCategory, setSelectedCategory] = useState(categories[0]);
   
   const onDrop = useCallback(acceptedFiles => {
     acceptedFiles.forEach(file => {
@@ -43,6 +50,7 @@ function SubmitReport() {
     description: '',
     location: '',
   })
+  const [selectedPriority, setSelectedPriority] = useState('low');
 
   const validateForm = () => {
     if(reportForm.title.trim().length <= 0) return "Title Required"
@@ -98,7 +106,7 @@ function SubmitReport() {
 
     const {error} = await supabase
       .from("reports")
-      .insert({...reportForm, image_url, user_id: user.id, reported_by: user?.user_metadata?.full_name })
+      .insert({...reportForm, image_url, user_id: user.id, reported_by: user?.user_metadata?.full_name, priority: selectedPriority, category: selectedCategory})
       .single()
 
     if(error) {
@@ -112,6 +120,8 @@ function SubmitReport() {
         });
         setDataURL(null);
         setUploadedURL(null);
+        setSelectedCategory(categories[0]);
+        setSelectedPriority('low');
         setError("")
         setSuccess("Report successfully submitted")
         navigate('/reporterdashboard')
@@ -130,7 +140,7 @@ function SubmitReport() {
     
       <div className='bg-white dark:bg-black sm:w-160 w-85 min-h-152 rounded-lg px-5 sm:px-8 pt-4 pb-6 flex flex-col gap-2 shadow-lg border-border/50 border'>
         <form action="" onSubmit={handleSubmit} className=' flex flex-col gap-5 w-full'>
-          <h3 class="text-text font-semibold text-xl">
+          <h3 className="text-text font-semibold text-xl">
             Submit Maintenance Report
           </h3>
 
@@ -139,6 +149,7 @@ function SubmitReport() {
             type='text'
             placeholder="Berief description of the issue"
             onChange= {(e) => setReportForm({...reportForm, title: e.target.value})}
+            value={reportForm.title}
           />
 
           <div>
@@ -151,6 +162,7 @@ function SubmitReport() {
                 placeholder="Provide detailed information about the maintenance issue"
                 className="bg-gray-100 dark:bg-gray-900 w-full text-[15px] px-3 py-1 rounded-md text-text-muted placeholder:text-gray-500 focus:outline-none"
                 onChange= {(e) => setReportForm({...reportForm, description: e.target.value})}
+                value={reportForm.description}
                 ></textarea>                
             </div>
           </div>
@@ -160,13 +172,42 @@ function SubmitReport() {
               type='text'
               placeholder="e.g., Building A - Rom 301"
               onChange={(e) => setReportForm({...reportForm, location: e.target.value})}
+              value={reportForm.location}
+              required
             />
+
+            <div className='flex justify-between gap-6'>
+              <div className='w-full flex-col gap-2 flex'>
+                <DropDown
+                  label="Priority Level *"
+                  onChange={(value) => setSelectedPriority(value)}
+                  value={selectedPriority}
+                  name={selectedPriority}
+                  listOptions={priority}
+                  required
+                />
+              </div>
+
+              <div className='w-full flex-col gap-2 flex'>
+                <DropDown
+              label="Select Category *"
+              onChange={(value) => setSelectedCategory(value)}
+              value={selectedCategory}
+              name={selectedCategory}
+              listOptions={categories}
+            />
+              </div>
+            
+            </div>
+            
+
+            
 
 
           <div>
             <p className="font-bold text-text mb-2">Upload Images (Optional)</p>
             <label
-              for="input-file"
+              htmlFor="input-file"
               id="drop-area"
               className="block w-full h-40 rounded-lg text-center cursor-pointer"
             >   

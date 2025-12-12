@@ -76,7 +76,7 @@ export const AuthContextProvider = ({children}) => {
 
     const fetchSession = async () => {
         const currentSession = await supabase.auth.getSession();
-        console.log(session);
+        console.log(currentSession.data.session);
         setSession(currentSession.data.session);
         setUser(currentSession.data.session?.user || null);
     }

@@ -4,6 +4,7 @@ import SectionHeader from '../../../components/SectionHeader'
 import StatusBadge from '../../../components/StatusBadge'
 import { supabase } from '../../../supabaseClient'
 import { UserAuth } from '../../../context/AuthContext'
+import PriorityBadge from '../../../components/PriorityBadge'
 
 function Completed() {
   const { user } = UserAuth();
@@ -101,13 +102,19 @@ function Completed() {
       ) : (
         <div className='grid grid-cols-1 lg:grid-cols-2 gap-3'>
           {completedTasks.map(task => (
-            <div key={task.id} className="p-5 shadow-lg rounded-lg bg-background-black border-border/50 border">
+            <div key={task.id} className="p-5 shadow-lg rounded-lg bg-background-black border-border/50 border relative">
               <div className="mb-3 flex flex-col w-auto">
+                <div className="mb-2">
+                  <StatusBadge
+                    status={task.status}
+                  />
+                </div>
                 <div className="flex flex-row mb-1 justify-between items-center">
                   <h2 className="text-text text-lg w-[70%]">
-                    {task.title}
+                      {task.title}
                   </h2>
-                  <StatusBadge status={task.status} />
+
+                  <PriorityBadge priority={task.priority} />
                 </div>
 
                 <div>

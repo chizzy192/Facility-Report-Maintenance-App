@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 import SectionHeader from '../../../components/SectionHeader'
-import Buttons from '../../../components/Buttons'
 import { Trash, UserPlus, X } from 'lucide-react'
 import { supabase } from '../../../supabaseClient'
 import StatusBadge from '../../../components/StatusBadge'
-import DropDown from '../../../components/DropDown'
+import TechnicianDropDown from '../../../components/TechnicianDropDown'
+import PriorityBadge from '../../../components/PriorityBadge'
 
 function Reports() {
 
@@ -87,9 +87,8 @@ function Reports() {
     // Fetch technicians
     const fetchTechnicians = async () => {
       const { data, error } = await supabase
-        .from("profiles")
-        .select("user_id, full_name")
-        .eq("role", "technician");
+        .from("technicians")
+        .select("user_id, full_name, category");
 
       if (error) {
         console.error("Error fetching technicians:", error);
@@ -205,6 +204,8 @@ function Reports() {
                 <th className="px-4 py-2 text-left">Images</th>
                 <th className="px-4 py-2 text-left">Title</th>
                 <th className="px-4 py-2 text-left">Location</th>
+                <th className="px-4 py-2 text-left">Priority</th>
+                <th className="px-4 py-2 text-left">Category</th>
                 <th className="px-4 py-2 text-left">Reporter</th>
                 <th className="px-4 py-2 text-left">Status</th>
                 <th className="px-4 py-2 text-left">Technician</th>
@@ -236,6 +237,14 @@ function Reports() {
 
                 <td className="whitespace-nowrap px-4 py-2 text-text">
                   {report.location}
+                </td>
+
+                <td className="whitespace-nowrap px-4 py-2 text-text">
+                  <PriorityBadge priority={report.priority} />
+                </td>
+
+                <td className="whitespace-nowrap px-4 py-2 text-text">
+                  {report.category || 'Uncategorized'}
                 </td>
 
                 <td className="whitespace-nowrap px-4 py-2 text-text">
@@ -316,7 +325,7 @@ function Reports() {
               </div>
             )}
 
-            <DropDown
+            <TechnicianDropDown
               technicians={technicians}
               value={selectedTech?.user_id || null}
               onChange={(tech) => setSelectedTech(tech)}

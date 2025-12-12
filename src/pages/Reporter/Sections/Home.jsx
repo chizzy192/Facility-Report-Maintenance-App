@@ -4,6 +4,7 @@ import StatusBadge from "../../../components/StatusBadge"
 import { useEffect, useState } from "react"
 import { supabase } from "../../../supabaseClient"
 import Masonry from 'react-masonry-css';
+import PriorityBadge from "../../../components/PriorityBadge"
 
 function Home() {
     const [reports, setReports] = useState([]);
@@ -69,7 +70,22 @@ function Home() {
       >
 
         {reports.map (report => (  
-        <div key={report.id} className="border-border/50 border bg-background-black rounded-2xl gap-3 shadow-md ">
+        <div key={report.id} className="border-border/50 border bg-background-black rounded-2xl gap-3 shadow-md relative">
+          {report.image_url && (
+            <div className="absolute right-0 m-2">
+              <StatusBadge
+                status={report.status}
+            />
+            </div>
+          )}
+
+          {!report.image_url &&  (<div className="m-2">
+            <StatusBadge
+              status={report.status}
+          />
+          </div>)}
+          
+          
             {report.image_url && (<img 
                 src={report.image_url}
                 alt="" 
@@ -83,9 +99,7 @@ function Home() {
                             {report.title}
                         </h2>
 
-                        <StatusBadge
-                            status={report.status}
-                        />
+                        <PriorityBadge priority={report.priority} />
                     </div>
 
                     <div>

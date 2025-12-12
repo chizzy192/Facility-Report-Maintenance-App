@@ -60,7 +60,13 @@ function SignUp() {
         } catch (err){
             setError(err.message || "Something went wrong")
         } finally {
-            setLoading(false)
+            setLoading(false);
+            setForm({
+                name: '',
+                email: '',
+                password: '',
+                confirmPassword: ''
+            });
         }
     }
 
@@ -90,6 +96,7 @@ function SignUp() {
                     placeholder="John Doe"
                     className='w-5 h-5'
                     onChange= {(e)=> setForm({...form, name: e.target.value})}
+                    value={form.name}
                 />
 
                 <FormInput
@@ -100,6 +107,7 @@ function SignUp() {
                     placeholder="you@example.com"
                     className='w-5 h-5'
                     onChange= {(e)=> setForm({...form, email: e.target.value})}
+                    value={form.email}
                 />
 
                 <FormInput
@@ -114,6 +122,7 @@ function SignUp() {
                     eyesIcon = {showPassword ? eyeOff : eyeOpen}
                     className='w-5 h-5'
                     onChange= {(e)=> setForm({...form, password: e.target.value})}
+                    value={form.password}
                 />
 
                 <FormInput
@@ -128,6 +137,7 @@ function SignUp() {
                     eyesIcon = {showConfirmPassword ? eyeOff : eyeOpen}
                     className='w-5 h-5'
                     onChange= {(e)=> setForm({...form, confirmPassword: e.target.value})}
+                    value={form.confirmPassword}
                 />
 
                 {error && <p className='text-error text-sm mt-2'>{error}</p>}
