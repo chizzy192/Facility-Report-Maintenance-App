@@ -165,15 +165,19 @@ function MyReports() {
                       <span className="text-text-muted text-sm">{report.created_at?.slice(0, 10)}</span>
                   </p>
 
-                  <div className="border-border/50 border "></div>
+                  
                   
                   {report.assigned_to && (
+                    <>
+                    <div className="border-border/50 border "></div>
                     <p className="flex justify-between items-center">
                       <span className="text-text-muted text-sm">Assigned to:</span>
                       <span className="text-text">
                         {report.assigned_technician?.full_name || 'Unknown'}
                       </span>
-                  </p> 
+                    </p> 
+                    </>
+                    
                   )}
                      
                 </div>

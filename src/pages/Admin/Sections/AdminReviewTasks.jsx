@@ -202,7 +202,7 @@ function AdminReviewTasks() {
                   <p className="flex justify-between items-center">
                     <span className="text-text-muted text-sm">Reported by:</span>
                     <span className="text-text">
-                      {task.reporter?.full_name || 'Unknown'}
+                      {task.reported_by?.full_name || 'Unknown'}
                     </span>
                   </p>
 
