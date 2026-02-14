@@ -113,13 +113,13 @@ function Reports() {
       
       if (!selectedTech || !currentReport) {
         console.log("Missing data - selectedTech or currentReport is null");
-        alert("Please select a technician");
+        toast.error("Please select a technician");
         return;
       }
 
       if (!selectedTech.user_id) {
         console.log("ERROR: selectedTech.user_id is missing!");
-        alert("Invalid technician selected");
+        toast.error("Invalid technician selected");
         return;
       }
 
@@ -135,21 +135,14 @@ function Reports() {
         .eq("id", currentReport.id)
         .select();
 
-      console.log("Supabase UPDATE response data:", data);
-      console.log("Supabase UPDATE response error:", error);
-
       if (error) {
-        console.error("Assignment error:", error);
-        alert("Error assigning technician: " + error.message);
+        toast.error("Error assigning technician: " + error.message);
         return;
       }
       
       if (!data || data.length === 0) {
-        console.log("WARNING: Update returned no data");
-        alert("Assignment may have failed - no data returned");
+        toast.error("Assignment may have failed - no data returned");
       }
-      
-      console.log("Assignment successful, refreshing data...");
       
       // Refresh data to get updated technician info
       await fetchData();
@@ -159,7 +152,7 @@ function Reports() {
       setSelectedTech(null);
       setCurrentReport(null);
       
-      alert("Technician assigned successfully!");
+      toast.success("Technician assigned successfully!");
     };
 
     // Handle delete report
@@ -176,16 +169,16 @@ function Reports() {
 
         if (error) {
           console.error("Error deleting report:", error);
-          alert("Failed to delete report: " + error.message);
+          toast.error("Failed to delete report: " + error.message);
           return;
         }
 
         // Remove from local state immediately
         setReports(prev => prev.filter(report => report.id !== reportId));
-        alert("Report deleted successfully!");
+        toast.success("Report deleted successfully!");
       } catch (err) {
         console.error("Error:", err);
-        alert("An error occurred while deleting the report");
+        toast.error("An error occurred while deleting the report");
       }
     };
 

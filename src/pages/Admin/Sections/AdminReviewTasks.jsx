@@ -95,16 +95,16 @@ function AdminReviewTasks() {
 
       if (error) {
         console.error("Error confirming task:", error);
-        alert("Failed to confirm task: " + error.message);
+        toast.error("Failed to confirm task: " + error.message);
         return;
       }
 
       // Remove from list after confirming
       setReviewTasks(prev => prev.filter(task => task.id !== reportId));
-      alert("Task confirmed as fixed!");
+      toast.success("Task confirmed as fixed!");
     } catch (err) {
       console.error("Error:", err);
-      alert("An error occurred while confirming the task");
+      toast.error("An error occurred while confirming the task");
     }
   };
 
@@ -122,16 +122,16 @@ function AdminReviewTasks() {
 
       if (error) {
         console.error("Error canceling task:", error);
-        alert("Failed to cancel task: " + error.message);
+        toast.error("Failed to cancel task: " + error.message);
         return;
       }
 
       // Remove from list after canceling
       setReviewTasks(prev => prev.filter(task => task.id !== reportId));
-      alert("Task returned to pending - technician unassigned");
+      toast.success("Task returned to pending - technician unassigned");
     } catch (err) {
       console.error("Error:", err);
-      alert("An error occurred while canceling the task");
+      toast.error("An error occurred while canceling the task");
     }
   };
 

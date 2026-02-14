@@ -24,6 +24,7 @@ import Completed from "./pages/Technician/Sections/Completed"
 import TechnicianNotification from "./pages/Technician/Sections/TechnicianNotification"
 import ProtectedRoute from "../src/components/ProtectedRoute" 
 
+
 export const router = createBrowserRouter ([
     {path: "/", element: <App/>},
     { path: '/signup', element: <SignUp />},

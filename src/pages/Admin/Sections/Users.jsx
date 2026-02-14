@@ -4,6 +4,7 @@ import {  Edit, X } from 'lucide-react'
 import { supabase } from '../../../supabaseClient';
 import CategoryDropDown from '../../../components/CategoryDropDown';
 import { categories } from '../../../components/categories';
+import { toast } from 'sonner';
 
 function Users() {
   const [loading, setLoading] = useState(false);
@@ -44,8 +45,10 @@ function Users() {
 
     if (error) {
       console.error('Error:', error.message);
+      toast.error("Failed to update role: " + error.message);
     } else {
       console.log('Role updated to:', newRole);
+      toast.success("User role updated successfully to a " + newRole);
       await fetchData();
     }
     
@@ -72,11 +75,11 @@ function Users() {
   const handleAssign = async () => {
     // Assignment logic here
     if (!selectedUserId) {
-      alert('No technician selected to assign');
+      toast.error('No technician selected to assign');
       return;
     }
     if (!selectedCategory) {
-      alert('Please select a category');
+      toast.error('Please select a category');
       return;
     }
 
@@ -91,7 +94,7 @@ function Users() {
 
       if (error) {
         console.error("Assignment error:", error);
-        alert("Error assigning technician: " + error.message);
+        toast.error("Error assigning technician to category: " + error.message);
         return;
       }
       
@@ -106,14 +109,14 @@ function Users() {
 
                   if (insertError) {
                     console.error('Insert fallback error:', insertError);
-                    alert('Assignment failed: ' + insertError.message);
+                    toast.error('Assignment failed: ' + insertError.message);
                     return;
                   }
 
                   console.log('Inserted new technician record:', insertData);
                 } else {
                   console.log("WARNING: Update returned no data");
-                  alert("Assignment may have failed - no data returned");
+                  toast.error("Assignment may have failed - no data returned");
                 }
               }
       
@@ -127,7 +130,7 @@ function Users() {
         setSelectedUserId(null);
         setSelectedCategory(null);
 
-        alert("Technician assigned successfully!");
+        toast.success("Technician assigned to " + selectedCategory + " successfully!");
   };
 
   // Function to render role buttons based on current role

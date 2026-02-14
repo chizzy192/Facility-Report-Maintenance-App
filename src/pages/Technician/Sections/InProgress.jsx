@@ -99,16 +99,16 @@ function InProgress() {
 
       if (error) {
         console.error("Error marking task as resolved:", error);
-        alert("Failed to mark task as resolved: " + error.message);
+        toast.error("Failed to mark task as resolved: " + error.message);
         return;
       }
 
       // Remove from list after marking as resolved
       setInProgressTasks(prev => prev.filter(task => task.id !== reportId));
-      alert("Task marked as resolved! Awaiting confirmation.");
+      toast.success("Task marked as resolved! Awaiting confirmation.");
     } catch (err) {
       console.error("Error:", err);
-      alert("An error occurred while marking the task as resolved");
+      toast.error("An error occurred while marking the task as resolved");
     }
   };
 

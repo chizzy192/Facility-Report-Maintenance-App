@@ -144,16 +144,16 @@ function AssignedTasks() {
 
       if (error) {
         console.error("Error accepting task:", error);
-        alert("Failed to accept task: " + error.message);
+        toast.error("Failed to accept task: " + error.message);
         return;
       }
 
       // Remove from list after accepting
       setAssignedTasks(prev => prev.filter(task => task.id !== reportId));
-      alert("Task accepted successfully!");
+      toast.success("Task accepted successfully!");
     } catch (err) {
       console.error("Error:", err);
-      alert("An error occurred while accepting the task");
+      toast.error("An error occurred while accepting the task");
     }
   };
 
@@ -170,16 +170,16 @@ function AssignedTasks() {
 
       if (error) {
         console.error("Error declining task:", error);
-        alert("Failed to decline task: " + error.message);
+        toast.error("Failed to decline task: " + error.message);
         return;
       }
 
       // Remove from list after declining
       setAssignedTasks(prev => prev.filter(task => task.id !== reportId));
-      alert("Task declined successfully!");
+      toast.success("Task declined successfully!");
     } catch (err) {
       console.error("Error:", err);
-      alert("An error occurred while declining the task");
+      toast.error("An error occurred while declining the task");
     }
   };
 
